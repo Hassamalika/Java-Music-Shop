@@ -40,7 +40,7 @@ public class Shop {
 
     public void Menu() {
         
-        songOne = new ArrayList<>();
+        	songOne = new ArrayList<>();
 		songTwo = new ArrayList<>();
 		songThree = new ArrayList<>();
 		songFour = new ArrayList<>();
@@ -55,7 +55,6 @@ public class Shop {
 		songThree.add(s3);
 		songFour.add(s4);
 		
-		 
 		System.out.println(s1.showMessage());
 		System.out.println(s2.showMessage());
 		System.out.println(s3.showMessage());
@@ -110,8 +109,8 @@ public class Shop {
 		{
 		case 0:
 			exit = true;
-            System.out.println("\nThank you for shopping. Goodbye.");
-            break;
+            		System.out.println("\nThank you for shopping. Goodbye.");
+            		break;
             
 		case 1:
 			System.out.println("Thank you that will be " + String.format("%.2f", p1) + ".\n");
@@ -192,10 +191,5 @@ public class Shop {
 		}
 		return price4;
 	}
-
-	
-
-	
-
 }
 
