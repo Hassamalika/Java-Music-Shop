@@ -8,11 +8,13 @@ public class Store {
 	
 	public static void main(String[] args ) throws NumberFormatException, IOException {
 		
+	//prints header
 		System.out.println("+----------------------------------------+");
         System.out.println("|          Welcome to my shop!           |");
         System.out.println("+----------------------------------------+");
         System.out.println("\n\nWe have the following CD's in stock.\n");
         
+	//list of songs
         ArrayList<Music> songs;
 		songs = new ArrayList<>();
 	
@@ -77,7 +79,7 @@ public class Store {
 		}
 	}
 		
-	
+	//calculate change
 	public static void getChange(double cost) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("\nPlease input how much you would like to give me:");
