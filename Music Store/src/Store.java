@@ -43,39 +43,17 @@ public class Store {
 		//show price
 		//and from input calculate change
 		
-		double cost1;
-		double cost2;
-		double cost3;
-		double cost4;
+		double cost;
 		
-		if (choice == 0)
-		{
-			System.out.println("\nThank you for shopping. Goodbye.");
-			exit = true;
+		for (int i = 0; i < choice; i++) {
+			cost = songs.get(i).getPrice();
+			System.out.println("Thank you that will be " + String.format("%.2f", cost) + ".\n");
+			getChange(cost);
 		}
-		else if(choice == 1)
-		{
-			cost1 = songs.get(0).getPrice();
-			System.out.println("Thank you that will be " + String.format("%.2f", cost1) + ".\n");
-			getChange(cost1);
-		}
-		else if(choice == 2)
-		{
-			cost2 = songs.get(1).getPrice();
-			System.out.println("Thank you that will be " + String.format("%.2f", cost2) + ".\n");
-			getChange(cost2);
-		}
-		else if(choice == 3)
-		{
-			cost3 = songs.get(2).getPrice();
-			System.out.println("Thank you that will be " + String.format("%.2f", cost3) + ".\n");
-			getChange(cost3);
-		}
-		else if (choice == 4)
-		{
-			cost4 = songs.get(3).getPrice();
-			System.out.println("Thank you that will be " + String.format("%.2f", cost4) + ".\n");
-			getChange(cost4);
+		
+		if(choice == 0) {
+				System.out.println("\nThank you for shopping. Goodbye.");
+				exit = true;
 		}
 	}
 		
