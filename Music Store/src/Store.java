@@ -33,7 +33,7 @@ public class Store {
 		
 		//get user input
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		System.out.println("\nPlease input how much you would like to give me:");
+		System.out.println("\nPlease input which CD you would like:");
 		int choice;
 		choice = Integer.parseInt(reader.readLine());
 		
