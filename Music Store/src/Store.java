@@ -28,7 +28,7 @@ public class Store {
 		songs.add(s4);
 		
 		for(int i = 0; i < songs.size(); i++) {
-			System.out.println(songs.get(i).getMessage());
+			System.out.println(i + songs.get(i).getMessage());
 		}
 		
 		//get user input
@@ -39,7 +39,7 @@ public class Store {
 		
 		double cost;
 		
-		cost = songs.get(i).getPrice(choice);
+		cost = songs.get(choice).getPrice();
 		System.out.println("Thank you that will be " + String.format("%.2f", cost) + ".\n");
 		getChange(cost);
 		
