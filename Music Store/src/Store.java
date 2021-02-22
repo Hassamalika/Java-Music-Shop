@@ -28,23 +28,28 @@ public class Store {
 		songs.add(s4);
 		
 		for(int i = 0; i < songs.size(); i++) {
-			System.out.println(i + songs.get(i).getMessage());
+			System.out.println(i + songs.get(i).showMessage());
 		}
 		
 		//get user input
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("\nPlease input which CD you would like:");
 		int choice;
-		choice = Integer.parseInt(reader.readLine());
+		final String userInput = reader.readLine();
+		choice = getChoice(userInput);
 		
 		double cost;
 		
-		cost = songs.get(choice).getPrice();
+		cost = songs.get(choice).returnPrice();
 		System.out.println("Thank you that will be " + String.format("%.2f", cost) + ".\n");
 		getChange(cost);
 		
 	}
-		
+
+	static int getChoice(String userInput) {
+		return Integer.parseInt(userInput);
+	}
+
 	//calculate change
 	public static void getChange(double cost) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
