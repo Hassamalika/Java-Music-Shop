@@ -1,0 +1,24 @@
+{
+    "products" :
+    [
+      {
+    
+      "song": [
+          "Song Cry", "Real Love", "Real Habits", "Trip"
+      ],
+    
+      "artists" : [
+          "Jay Z", "Mary J.Blige", "Usher", "Ella Mai"
+      ],
+    
+      "price":[
+          350, 1350, 2650, 4000
+      ],
+    
+      "stock": [
+          15, 24, 2, 6
+      ]
+        
+      }
+    ]
+  }
