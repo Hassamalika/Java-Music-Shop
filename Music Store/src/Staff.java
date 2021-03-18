@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 public class Staff {
-	
-	//public static List<Product> list = new ArrayList<>();
-	//call list from product class
 
 	static void runStaffSide(List<Product> list) {
 		
