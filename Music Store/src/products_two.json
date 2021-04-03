@@ -1,0 +1,33 @@
+
+    [
+      {
+        "id": 1,
+        "song": "Song Cry",
+        "artists": "Jay Z",
+        "price": 3.50,
+        "stock": 15
+      },
+
+      {
+        "id": 2,
+        "song": "Real Love",
+        "artists": "Mary J.Blige",
+        "price": 13.50,
+        "stock": 24
+      },
+      {
+        "id": 3,        
+        "song": "Real Habits",
+        "artists": "Usher",
+        "price": 25.50,
+        "stock": 5
+      },
+
+      {
+        "id": 4,
+        "song": "Trip",
+        "artists": "Ella Mai",
+        "price": 40.00,
+        "stock": 2
+      }
+    ]
