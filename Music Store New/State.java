@@ -14,20 +14,21 @@ public class State {
         State.state = state;
     }
 
-    public void getState() {
+    public String getState() {
 
         if(state.equalsIgnoreCase(ready)) {
-            System.out.println(ready);
+            return ready;
         }
         else if(state.equalsIgnoreCase(pending)) {
-            System.out.println(pending);
+            return pending;
         }
         else if (state.equalsIgnoreCase(selected)) {
-            System.out.println(selected);
+            return selected;
         }
         else if (state.equalsIgnoreCase(exit)) {
-            System.out.println(exit);
+            return exit;
         }
+        return null;
     }
 
 }

@@ -56,7 +56,7 @@ public class newStaff {
     }
 
     public static String optionFive() {
-        return "5 - Save changes";
+        return "5 - Save changes/ Exit";
     }
 
     public static String getStaffInput() {
@@ -124,57 +124,141 @@ public class newStaff {
         return output;
     }
 
-    public static String staffAddProductSong(String input) {
-        return input;
+    public static String staffAddProductSong() {
+
+        String song = "";
+        String state = ready;
+        switch(state) {
+            case ready:
+                main.setState(State.ready);
+                System.out.println(main.getState());
+                System.out.println(getMessageAddProduct());
+                System.out.println(getMessageAddProductSong());
+                main.setState(State.pending);
+
+            case pending:
+                System.out.println(main.getState());
+                String input = getStaffInput();
+                song = input;
+                main.setState(State.selected);
+
+            case selected:
+                System.out.println(main.getState());
+                main.setState(State.exit);
+
+            case exit:
+                System.out.println("Adding song state: ");
+                System.out.println(main.getState());
+        }
+        return song;
     }
 
-    public static String staffAddProductArtist(String input) {
-        return input;
+    public static String staffAddProductArtist() {
+
+        String artists = "";
+        String state = ready;
+        switch(state) {
+            case ready:
+                main.setState(State.ready);
+                System.out.println(main.getState());
+                System.out.println(getMessageAddProductArtist());
+                main.setState(State.pending);
+
+            case pending:
+                System.out.println(main.getState());
+                String input = getStaffInput();
+                artists = input;
+                main.setState(State.selected);
+
+            case selected:
+                System.out.println(main.getState());
+                main.setState(State.exit);
+
+            case exit:
+                System.out.println("Adding artists state: ");
+                System.out.println(main.getState());
+        }
+        return artists;
     }
 
-    public static BigDecimal staffAddProductPrice(String input) {
-        return new BigDecimal(input);
+    public static BigDecimal staffAddProductPrice() {
+
+        BigDecimal price = null;
+        String state = ready;
+        switch(state) {
+            case ready:
+                main.setState(State.ready);
+                System.out.println(main.getState());
+                System.out.println(getMessageAddProductPrice());
+                main.setState(State.pending);
+
+            case pending:
+                System.out.println(main.getState());
+                String input = getStaffInput();
+                price = new BigDecimal(input);
+                main.setState(State.selected);
+
+            case selected:
+                System.out.println(main.getState());
+                main.setState(State.exit);
+
+            case exit:
+                System.out.println("Adding price state: ");
+                System.out.println(main.getState());
+        }
+        return price;
     }
 
-    public static int staffAddProductStock(String input) {
-        return returnStringToInteger(input);
+    public static int staffAddProductStock() {
+
+        int stock = 0;
+        String state = ready;
+        switch(state) {
+            case ready:
+                main.setState(State.ready);
+                System.out.println(main.getState());
+                System.out.println(getMessageAddProductStock());
+                main.setState(State.pending);
+
+            case pending:
+                System.out.println(main.getState());
+                String input = newStore.getInput();
+                stock = returnStringToInteger(input);
+                main.setState(State.selected);
+
+            case selected:
+                System.out.println(main.getState());
+                main.setState(State.exit);
+
+            case exit:
+                System.out.println("Adding stock state: ");
+                System.out.println(main.getState());
+        }
+        return stock;
     }
 
     private static void staffAddProduct(List<Product> list) {
 
-        main.getState();
-        System.out.println(getMessageAddProduct());
-        main.getState();
-        System.out.println(getMessageAddProductSong());
+        String song = "";
+        String artists= "";
+        BigDecimal price = null;
+        int stock = 0;
 
-        main.getState();
-        final String input = getStaffInput();
-        String song = staffAddProductSong(input);
-        main.getState();
+        int order = 1;
+        switch (order) {
+            case 1:
+                song = staffAddProductSong();
+                order = 2;
+            case 2:
+                artists = staffAddProductArtist();
+                order = 3;
+            case 3:
+                price = staffAddProductPrice();
+                order = 4;
+            case 4:
+                stock = staffAddProductStock();
 
-        main.getState();
-        System.out.println(getMessageAddProductArtist());
-
-        main.getState();
-        final String inputTwo = getStaffInput();
-        main.getState();
-        String artists = staffAddProductArtist(inputTwo);
-
-        main.getState();
-        System.out.println(getMessageAddProductPrice());
-
-        main.getState();
-        final String inputPrice = getStaffInput();
-        main.getState();
-        BigDecimal price = staffAddProductPrice(inputPrice);
-
-        main.getState();
-        System.out.println(getMessageAddProductStock());
-
-        main.getState();
-        final String inputStock = getStaffInput();
-        main.getState();
-        int stock = staffAddProductStock(inputStock);
+        }
 
         Product newProduct = new Product(song, artists, price, stock);
         list.add(newProduct);
@@ -189,10 +273,30 @@ public class newStaff {
     }
 
     private static void staffRemoveProduct(List<Product> list) {
-        System.out.println(getMessageRemoveProduct());
-        final String input = getStaffInput();
-        int intItem = returnStringToInteger(input);
-        list.remove(intItem);
+
+        String state = ready;
+        switch(state) {
+            case ready:
+                main.setState(State.ready);
+                System.out.println(main.getState());
+                System.out.println(getMessageRemoveProduct());
+                main.setState(State.pending);
+
+            case pending:
+                System.out.println(main.getState());
+                final String input = getStaffInput();
+                int intItem = returnStringToInteger(input);
+                list.remove(intItem);
+                main.setState(State.selected);
+
+            case selected:
+                System.out.println(main.getState());
+                main.setState(State.exit);
+
+            case exit:
+                System.out.println("Removing product state: ");
+                System.out.println(main.getState());
+        }
 
         showUpdatedList(list);
         backToMainMenu(list);
@@ -207,22 +311,35 @@ public class newStaff {
         return "Please enter the new stock information:";
     }
 
-    public static String getMessageChangeStockThree() {
-        return "Updated product information:";
-    }
 
     private static void staffChangeStock(List<Product> list) {
 
-        System.out.println(getMessageChangeStockOne());
-        final String input = getStaffInput();
-        int intItem = returnStringToInteger(input);
+        String state = ready;
+        switch(state) {
+            case ready:
+                main.setState(State.ready);
+                System.out.println(main.getState());
+                System.out.println(getMessageChangeStockOne());
+                System.out.println(getMessageChangeStockTwo());
+                main.setState(State.pending);
 
-        System.out.println(getMessageChangeStockTwo());
-        final String inputTwo = getStaffInput();
-        int newStock = returnStringToInteger(inputTwo);
+            case pending:
+                System.out.println(main.getState());
+                final String input = getStaffInput();
+                int intItem = returnStringToInteger(input);
+                final String inputTwo = getStaffInput();
+                int newStock = returnStringToInteger(inputTwo);
+                list.get(intItem).setStock(newStock);
+                main.setState(State.selected);
 
-        list.get(intItem).setStock(newStock);
-        System.out.println(getMessageChangeStockThree());
+            case selected:
+                System.out.println(main.getState());
+                main.setState(State.exit);
+
+            case exit:
+                System.out.println("Changing stock state: ");
+                System.out.println(main.getState());
+        }
 
         showUpdatedList(list);
         backToMainMenu(list);
@@ -261,26 +378,40 @@ public class newStaff {
     }
 
     private static void staffApplyDiscount(List<Product> list) {
-        List<Product> newList;
 
-        try {
-            System.out.println(getMessageApplyDiscountOne());
-            String input = newStore.getInput();
-            float number = returnStringToFloat(input); //use float to be used in if integer/else
+        List<Product> newList = null;
+        String state = ready;
+        switch(state) {
+            case ready:
+                main.setState(State.ready);
+                System.out.println(main.getState());
+                System.out.println(getMessageApplyDiscountOne());
+                main.setState(State.pending);
 
-            if (number % 1 == 0) {
-                int discount = returnStringToInteger(input);
-                newList = getPricesWithIntDiscount(discount, list);
-            } else {
-                double discountDouble = returnStringToDouble(input);
-                newList = getPricesWithDoubleDiscount(discountDouble, list);
-            }
-            showUpdatedList(newList);
-            backToMainMenu(newList);
-        } catch (NumberFormatException e) {
-            System.out.println("Input not valid.");
-            e.printStackTrace();
+            case pending:
+                System.out.println(main.getState());
+                String input = newStore.getInput();
+                float number = returnStringToFloat(input);
+                if (number % 1 == 0) {
+                    int discount = returnStringToInteger(input);
+                    newList = getPricesWithIntDiscount(discount, list);
+                } else {
+                    double discountDouble = returnStringToDouble(input);
+                    newList = getPricesWithDoubleDiscount(discountDouble, list);
+                }
+                main.setState(State.selected);
+
+            case selected:
+                System.out.println(main.getState());
+                main.setState(State.exit);
+
+            case exit:
+                System.out.println("Adding song state: ");
+                System.out.println(main.getState());
         }
+        showUpdatedList(newList);
+        backToMainMenu(newList);
+
     }
     ///////////////////////////BACK TO MAIN MENU///////////////////////////////////////////////////////////////////////
 
@@ -307,15 +438,26 @@ public class newStaff {
 
     public static void backToMainMenu(List<Product> list) {
 
-        System.out.println(getMessageBackToMenu());
+        String state = ready;
+        switch(state) {
+            case ready:
+                main.setState(State.ready);
+                System.out.println(main.getState());
+                System.out.println(getMessageBackToMenu());
+                main.setState(State.pending);
 
-        final String input = getStaffInput();
+            case pending:
+                System.out.println(main.getState());
+                final String input = getStaffInput();
+                returnUserToMenuOrExit(input, list);
+                main.setState(State.selected);
 
-        returnUserToMenuOrExit(input, list);
+            case selected:
+                System.out.println(main.getState());
+        }
     }
 
     public static void returnUserToMenuOrExit(String input, List<Product> list) {
-
 
         if ("Y".equalsIgnoreCase(input)) {
             getStaffMainMenu();
@@ -365,7 +507,8 @@ public class newStaff {
         String state = ready;
         switch (state) {
             case ready: {
-                main.getState();
+                main.setState(State.ready);
+                System.out.println(main.getState());
                 System.out.println(getMessageOne());
                 System.out.println(getMessageTwo());
                 newStore.printMenu(list);
@@ -373,20 +516,20 @@ public class newStaff {
                 main.setState(pending);
             }
             case pending: {
-                main.getState();
+                System.out.println(main.getState());
                 main.setState(selected);
             }
             case selected: {
                 final String input = getStaffInput();
-                main.getState();
+                System.out.println(main.getState());
                 int option = returnStringToInteger(input);
                 goToSelectedAction(option, list);
-                main.getState();
+                System.out.println(main.getState());
                 main.setState(exit);
             }
             case exit: {
                 System.out.println("\nStaff status:");
-                main.getState();
+                System.out.println(main.getState());
             }
         }
     }
