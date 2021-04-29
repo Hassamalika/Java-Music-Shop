@@ -23,7 +23,7 @@ public class Product {
         BufferedReader br = null;
 
         try {
-            br = new BufferedReader(new FileReader("src/products.json"));
+            br = new BufferedReader(new FileReader("products.json"));
             Product[] result = gson.fromJson(br, Product[].class);
             List<Product> asList = Arrays.asList(result);
 

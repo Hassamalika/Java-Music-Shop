@@ -15,7 +15,6 @@ public class newStore {
 
     public static String getMessageTwo(BigDecimal price) {
         return "\nThat will be £ " + price + ".";
-
     }
 
     public static String getMessageThree() {
@@ -95,18 +94,18 @@ public class newStore {
         switch(State.ready){
             case State.ready: {
                 main.setState(State.ready);
-                main.getState();
+                System.out.println(main.getState());
                 System.out.println(getMessageTwo(price));
                 System.out.println(getMessageThree());
                 main.setState(State.pending);
             }
             case State.pending:{
-                main.getState();
+                System.out.println(main.getState());
                 main.setState(State.selected);
             }
             case State.selected:{
                 final String userAmount = getInput();
-                main.getState();
+                System.out.println(main.getState());
                 BigDecimal amount = getAmount(userAmount);
                 BigDecimal change = calculateChange(amount, price);
                 showUserChange(amount, price, change);
@@ -119,26 +118,26 @@ public class newStore {
         switch (State.ready) {
             case State.ready: {
                 main.setState(State.ready);
-                main.getState();
+                System.out.println(main.getState());
                 printHeader();
                 printMenu(list);
                 System.out.println(getMessageOne());
                 main.setState(State.pending);
             }
             case State.pending: {
-                main.getState();
+                System.out.println(main.getState());
                 main.setState(State.selected);
             }
             case State.selected: {
                 final String userChoice = getInput();
                 main.getState();
                 runMenu(list, userChoice);
-                main.getState();
+                System.out.println(main.getState());
                 main.setState(State.exit);
             }
             case State.exit: {
                 System.out.println("\nStore status:");
-                main.getState();
+                System.out.println(main.getState());
             }
         }
     }
