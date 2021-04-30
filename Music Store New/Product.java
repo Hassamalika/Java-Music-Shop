@@ -8,7 +8,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +22,7 @@ public class Product {
         BufferedReader br = null;
 
         try {
-            br = new BufferedReader(new FileReader("products.json"));
+            br = new BufferedReader(new FileReader("src/products.json"));
             Product[] result = gson.fromJson(br, Product[].class);
             List<Product> asList = Arrays.asList(result);
 
@@ -73,6 +72,7 @@ public class Product {
     }
 
     public void setPrice(BigDecimal price) {
+        price = new BigDecimal("###.00");
         this.price = price;
     }
 
@@ -83,6 +83,6 @@ public class Product {
 
     public String getMessage()
     {
-        return (" - " + song + ", "  + artists + ", Price: £" + new DecimalFormat("###.00").format(price) + ", Stock: " + stock);
+        return (" - " + song + ", "  + artists + ", Price: £" + price + ", Stock: " + stock);
     }
 }
