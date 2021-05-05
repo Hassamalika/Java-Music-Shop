@@ -7,7 +7,7 @@ import java.util.List;
 
 public class newStore {
 
-    static State main = new State();
+    static State menu = new State();
 
     public static String getMessageOne() {
         return "\nPlease input which CD you would like:";
@@ -15,7 +15,6 @@ public class newStore {
 
     public static String getMessageTwo(BigDecimal price) {
         return "\nThat will be £ " + price + ".";
-
     }
 
     public static String getMessageThree() {
@@ -47,7 +46,7 @@ public class newStore {
         try {
             System.out.println("> ");
             inputOne = reader.readLine();
-        } catch (IOException | NumberFormatException e) {
+        } catch (IOException | NumberFormatException | IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
         return inputOne;
@@ -55,8 +54,8 @@ public class newStore {
     }
 
     public static BigDecimal displayPrice(String input, List<Product> list) {
-        int userChoice = returnChoiceAsInteger(input);
-        return list.get(userChoice).getPrice();
+        int choice = returnChoiceAsInteger(input);
+        return list.get(choice).getPrice();
     }
 
     public static int returnChoiceAsInteger(String input) {
@@ -76,71 +75,83 @@ public class newStore {
         return new BigDecimal(input);
     }
 
+    private static void getUserSecondAmount(BigDecimal price) {
+        System.out.println(getNoChangeMessage());
+        System.out.println(getMessageThree());
+        final String input = getInput();
+        BigDecimal newAmount = getAmount(input);
+        BigDecimal newChange = calculateChange(newAmount, price);
+        System.out.println(getMessageFour(newChange));
+    }
 
-    public static void showUserChange(BigDecimal amount, BigDecimal price, BigDecimal change) {
-        if (amount.compareTo(price) > 0) {
+    public static void showUserChange(BigDecimal price, BigDecimal amount, BigDecimal change) {
+        int res = amount.compareTo(price);
+        if (res > 0) {
             System.out.println(getMessageFour(change));
-        } else {
-            System.out.println(getNoChangeMessage());
-            System.out.println(getMessageThree());
-            String newInput = getInput();
-            BigDecimal newAmount = getAmount(newInput);
-            BigDecimal newChange = calculateChange(newAmount, price);
-            System.out.println(getMessageFour(newChange));
+        }
+        else {
+            getUserSecondAmount(price);
         }
     }
 
-    public static void runMenu(List<Product> list, String input) {
-        BigDecimal price = displayPrice(input, list);
-        switch(State.ready){
-            case State.ready: {
-                main.setState(State.ready);
-                System.out.println(main.getState());
-                System.out.println(getMessageTwo(price));
-                System.out.println(getMessageThree());
-                main.setState(State.pending);
-            }
-            case State.pending:{
-                System.out.println(main.getState());
-                main.setState(State.selected);
-            }
-            case State.selected:{
-                final String userAmount = getInput();
-                System.out.println(main.getState());
-                BigDecimal amount = getAmount(userAmount);
-                BigDecimal change = calculateChange(amount, price);
-                showUserChange(amount, price, change);
-                main.setState(State.ready);
-            }
+    static void runChange(BigDecimal price){
+        menu.setState(State.pending);
+        System.out.println(menu.getState());
+        final String input = getInput();
+        BigDecimal amount = getAmount(input);
+        BigDecimal change = calculateChange(amount, price);
+        showUserChange(price, amount, change);
+
+        menu.setState(State.selected);
+        System.out.println(menu.getState());
+        menu.setState(State.ready);
+        System.out.println(menu.getState());
+        menu.setState(State.exit);
+    }
+
+    static void runMenu(String inputOne, List<Product> list) {
+        menu.getState();
+        System.out.println(menu.getState());
+        BigDecimal price = displayPrice(inputOne, list);
+        System.out.println(getMessageTwo(price));
+        System.out.println(getMessageThree());
+        runChange(price);
+    }
+
+    public static boolean hasFinished() {
+        if (menu.getState().equals(State.exit)) {
+            System.out.println("\nStore status:");
+            System.out.println(menu.getState());
+            return true;
         }
+        return false;
     }
 
     public static void runStore(List<Product> list) {
-        switch (State.ready) {
-            case State.ready: {
-                main.setState(State.ready);
-                System.out.println(main.getState());
-                printHeader();
-                printMenu(list);
-                System.out.println(getMessageOne());
-                main.setState(State.pending);
+        do {
+            switch (menu.getState()) {
+                case State.ready -> {
+                    menu.setState(State.ready);
+                    System.out.println(menu.getState());
+                    printHeader();
+                    printMenu(list);
+                    System.out.println(getMessageOne());
+                    menu.setState(State.pending);
+                }
+                case State.pending -> {
+                    System.out.println(menu.getState());
+                    menu.setState(State.selected);
+                }
+                case State.selected -> {
+                    final String userChoice = getInput();
+                    runMenu(userChoice, list);
+                }
+                case State.exit -> {
+                    System.out.println("Store status: ");
+                    System.out.println(menu.getState());
+                }
             }
-            case State.pending: {
-                System.out.println(main.getState());
-                main.setState(State.selected);
-            }
-            case State.selected: {
-                final String userChoice = getInput();
-                main.getState();
-                runMenu(list, userChoice);
-                System.out.println(main.getState());
-                main.setState(State.exit);
-            }
-            case State.exit: {
-                System.out.println("\nStore status:");
-                System.out.println(main.getState());
-            }
-        }
+        } while (!hasFinished());
+
     }
 }
-

@@ -68,11 +68,13 @@ public class Product {
 
     public BigDecimal getPrice() {
 
+
         price = price.setScale(2, RoundingMode.HALF_EVEN);
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice() {
+        BigDecimal price = new BigDecimal("###.00");
         this.price = price;
     }
 
@@ -83,6 +85,6 @@ public class Product {
 
     public String getMessage()
     {
-        return (" - " + song + ", "  + artists + ", Price: £" + new DecimalFormat("###.00").format(price) + ", Stock: " + stock);
+        return (" - " + song + ", "  + artists + ", Price: £" + price + ", Stock: " + stock);
     }
 }

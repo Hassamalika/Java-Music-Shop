@@ -38,31 +38,35 @@ public class MainStoreUpdated {
         if (main.getState().equals(State.exit)) {
             System.out.println("\nMain Store status:");
             main.getState();
+            return true;
         }
-        return true;
+        return false;
     }
 
 
     public static void main(String[] args) {
         do {
-            switch (State.ready) {
-                case State.ready: {
+            switch (main.getState()) {
+                case State.ready -> {
                     main.setState(State.ready);
                     System.out.println(main.getState());
                     System.out.println(getCurrentMessage());
                     System.out.println(getMessageForCustomer());
                     System.out.println(getMessageForStaff());
                     main.setState(State.pending);
+
                 }
-                case State.pending: {
+                case State.pending -> {
                     System.out.println(main.getState());
                     main.setState(State.selected);
+
                 }
-                case State.selected: {
+                case State.selected -> {
                     final String userInput = newStore.getInput();
                     System.out.println(main.getState());
                     userInput(userInput);
                     main.setState(State.exit);
+
                 }
             }
         } while (!hasFinished());
