@@ -53,13 +53,19 @@ public class newStore {
 
     }
 
-    public static BigDecimal displayPrice(String input, List<Product> list) {
-        int choice = returnChoiceAsInteger(input);
+    public static BigDecimal displayPrice(int choice, List<Product> list) {
         return list.get(choice).getPrice();
     }
 
-    public static int returnChoiceAsInteger(String input) {
-        float a = Math.abs(Float.parseFloat(input));
+    public static int returnChoiceAsInteger(String input, List<Product> list) {
+        float a = 0;
+        try{
+            a = Math.abs(Float.parseFloat(input));
+        } catch(NumberFormatException e){
+            System.out.println("Invalid input. Must be a number.");
+            final String reChoice = getInput();
+            runMenu(reChoice, list);
+        }
         return Math.round(a);
     }
 
@@ -75,7 +81,7 @@ public class newStore {
         return new BigDecimal(input);
     }
 
-    private static void getUserSecondAmount(BigDecimal price) {
+    public static void getUserSecondAmount(BigDecimal price) {
         System.out.println(getNoChangeMessage());
         System.out.println(getMessageThree());
         final String input = getInput();
@@ -86,15 +92,16 @@ public class newStore {
 
     public static void showUserChange(BigDecimal price, BigDecimal amount, BigDecimal change) {
         int res = amount.compareTo(price);
-        if (res > 0) {
+
+        if (res < 0) {
+            getUserSecondAmount(price);
+        } else {
             System.out.println(getMessageFour(change));
         }
-        else {
-            getUserSecondAmount(price);
-        }
+
     }
 
-    static void runChange(BigDecimal price){
+    static void runChange(BigDecimal price) {
         menu.setState(State.pending);
         System.out.println(menu.getState());
         final String input = getInput();
@@ -106,17 +113,30 @@ public class newStore {
         System.out.println(menu.getState());
         menu.setState(State.ready);
         System.out.println(menu.getState());
-        menu.setState(State.exit);
     }
 
-    static void runMenu(String inputOne, List<Product> list) {
-        menu.getState();
+    static void runMenu(String input, List<Product> list) {
         System.out.println(menu.getState());
-        BigDecimal price = displayPrice(inputOne, list);
-        System.out.println(getMessageTwo(price));
-        System.out.println(getMessageThree());
-        runChange(price);
+        int choice = returnChoiceAsInteger(input, list);
+        try {
+            BigDecimal price = displayPrice(choice, list);
+            System.out.println(getMessageTwo(price));
+            System.out.println(getMessageThree());
+            runChange(price);
+
+        } catch (IndexOutOfBoundsException e) {
+            menu.setState(State.ready);
+            System.out.println(menu.getState());
+            String message = "Please enter a number between 0 and 3.";
+            System.out.println(message);
+            System.out.println(getMessageOne());
+            final String rePrompt = getInput();
+            runMenu(rePrompt, list);
+        } catch (NumberFormatException e){
+            System.out.println("Invalid input");
+        }
     }
+
 
     public static boolean hasFinished() {
         if (menu.getState().equals(State.exit)) {
@@ -145,6 +165,7 @@ public class newStore {
                 case State.selected -> {
                     final String userChoice = getInput();
                     runMenu(userChoice, list);
+                    menu.setState(State.exit);
                 }
                 case State.exit -> {
                     System.out.println("Store status: ");
@@ -155,3 +176,6 @@ public class newStore {
 
     }
 }
+
+// keep testing loop, does not exit.
+
