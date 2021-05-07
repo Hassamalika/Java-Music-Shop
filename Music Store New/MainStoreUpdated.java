@@ -1,3 +1,5 @@
+
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,7 +39,7 @@ public class MainStoreUpdated {
     public static boolean hasFinished() {
         if (main.getState().equals(State.exit)) {
             System.out.println("\nMain Store status:");
-            main.getState();
+            System.out.println(main.getState());
             return true;
         }
         return false;
@@ -47,29 +49,31 @@ public class MainStoreUpdated {
     public static void main(String[] args) {
         do {
             switch (main.getState()) {
-                case State.ready -> {
+                case State.ready: {
                     main.setState(State.ready);
                     System.out.println(main.getState());
                     System.out.println(getCurrentMessage());
                     System.out.println(getMessageForCustomer());
                     System.out.println(getMessageForStaff());
                     main.setState(State.pending);
-
+                    break;
                 }
-                case State.pending -> {
+                case State.pending: {
                     System.out.println(main.getState());
                     main.setState(State.selected);
-
+                    break;
                 }
-                case State.selected -> {
+                case State.selected: {
                     final String userInput = newStore.getInput();
                     System.out.println(main.getState());
                     userInput(userInput);
                     main.setState(State.exit);
-
+                    break;
                 }
             }
         } while (!hasFinished());
 
     }
 }
+
+
