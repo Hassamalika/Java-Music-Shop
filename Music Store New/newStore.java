@@ -7,26 +7,23 @@ import java.util.List;
 
 public class newStore {
 
+    static Store st = new Store();
     static State menu = new State();
 
-    public static String getMessageOne() {
+    public String getMessageOne() {
         return "\nPlease input which CD you would like:";
     }
 
-    public static String getMessageTwo(BigDecimal price) {
+    public String getMessageTwo(BigDecimal price) {
         return "\nThat will be £ " + price + ".";
     }
 
-    public static String getMessageThree() {
+    public String getMessageThree() {
         return "\nPlease input how much you would like to give me:";
     }
 
-    public static String getMessageFour(BigDecimal change) {
+    public String getMessageFour(BigDecimal change) {
         return "\nThank you. Your change is £" + change + ".";
-    }
-
-    public static String getNoChangeMessage() {
-        return "\nPlease input an amount greater than the price";
     }
 
     public static void printHeader() {
@@ -79,73 +76,77 @@ public class newStore {
         System.out.println(message);
     }
 
-    public static void runStore(List<Product> list) {
-        BigDecimal price = null;
+    public String customerStore(List<Product> list) {
         String userChoice;
-        do {
-            switch (menu.getState()) {
-                case State.ready:
-                    printHeader();
-                    printMenu(list);
-                    print(getMessageOne());
-                    menu.setState(State.pending);
-                    break;
+        BigDecimal price = null;
+        print(menu.getState());
+        switch (menu.getState()) {
+            case State.ready:
+                menu.setState(State.ready);
+                printHeader();
+                printMenu(list);
+                st.message = getMessageOne();
+                menu.setState(State.pendingChoice);
+                break;
 
-                case State.pending:
-                    //take input
-                    //Either move to next state if correct
-                    // Or raise error and validate, loop again
-                    while (true) {
-                        userChoice = getInput();
-                        if (userChoice.length() > 1) {
-                            menu.setState(State.error);
-                        }
-                        else {
-                            int choice = returnChoiceAsInteger(userChoice);
-                            if (choice >= 4) {
-                                menu.setState(State.error);
-                            } else {
-                                price = displayPrice(choice, list);
-                                print(getMessageTwo(price));
-                                print(getMessageThree());
-                                menu.setState(State.selected);
-                            }
-                        }
-                        break;
-                    }
-                    break;
+            case State.pendingChoice:
+                //take input
+                //Either move to next state if correct
+                // Or raise error and validate, loop again
+                userChoice = getInput();
+                int choice = returnChoiceAsInteger(userChoice);
+                if (userChoice.length() > 1) {
+                    st.message = "Please enter a number between 0 and 3.";
+                } else if (choice >= 4) {
+                    st.message = "Please enter a number between 0 and 3.";
+                } else {
+                    price = displayPrice(choice, list);
+                    st.message = getMessageTwo(price);
+                    menu.setState(State.pendingAmount);
+                }
+                break;
 
-                case State.error:
-                    String message = "Please enter a number between 0 and 3.";
-                    print(message);
-                    menu.setState(State.pending);
-                    break;
-
-                case State.selected:
-                    userChoice = getInput();
+            case State.pendingAmount:
+                st.message = getMessageThree();
+                userChoice = getInput();
+                if (userChoice.length() > 1) {
+                    st.message = "Insufficient amount given. Please enter a numeric amount greater than the price.";
+                } else {
                     BigDecimal amount = new BigDecimal(userChoice);
                     BigDecimal change = calculateChange(amount, price);
-                    while (true) {
-                        int res = amount.compareTo(price);
-                        if (res > 0) {
-                            print(getMessageFour(change));
-                            menu.setState(State.exit);
-                        } else {
-                            menu.setState(State.selected);
-                        }
-                        break;
+                    int res = amount.compareTo(price);
+                    if (res > 0) {
+                        st.message = getMessageFour(change);
+                        menu.setState(State.exit);
+                    } else {
+                        st.message = "Insufficient amount given. Please enter a numeric amount greater than the price.";
                     }
-                    break;
+                }
 
-                case State.exit:
-                    System.out.println(menu.getState());
-                    break;
-            }
+                break;
+
+            case State.exit:
+                System.out.println(menu.getState());
+                break;
+        }
+        return st.getMessage();
+    }
+
+
+    public void runStore(List<Product> list) {
+        do {
+            print(customerStore(list));
         } while (!hasFinished());
     }
 
     public static int returnChoiceAsInteger(String userChoice) {
         return Math.abs(Integer.parseInt(userChoice));
+    }
+
+    public static void main(String[] args) {
+        newStore p = new newStore();
+        List<Product> list = Product.loadProductsJson();
+        p.runStore(list);
     }
 }
 
