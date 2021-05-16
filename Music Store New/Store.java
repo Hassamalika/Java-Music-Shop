@@ -6,11 +6,11 @@ public class Store {
 
 
     public String getMessage() {
-        return message;
+        return this.message;
     }
 
-    public String getCurrentState() {
-        return t.getState();
+    public void getCurrentState() {
+        System.out.println(t.getState());
     }
 
     public void setInitialState(String state) {

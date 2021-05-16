@@ -15,12 +15,9 @@ public class newStore {
     }
 
     public String getMessageTwo(BigDecimal price) {
-        return "\nThat will be £ " + price + ".";
+        return "\nThat will be £ " + price + ". \n \nPlease input how much you would like to give me:";
     }
 
-    public String getMessageThree() {
-        return "\nPlease input how much you would like to give me:";
-    }
 
     public String getMessageFour(BigDecimal change) {
         return "\nThank you. Your change is £" + change + ".";
@@ -77,9 +74,11 @@ public class newStore {
     }
 
     public String customerStore(List<Product> list) {
-        String userChoice;
-        BigDecimal price = null;
-        print(menu.getState());
+        String userChoice = "";
+        BigDecimal price = BigDecimal.ZERO;
+        Store t = new Store();
+        t.getCurrentState();
+        st.message = null;
         switch (menu.getState()) {
             case State.ready:
                 menu.setState(State.ready);
@@ -107,34 +106,33 @@ public class newStore {
                 break;
 
             case State.pendingAmount:
-                st.message = getMessageThree();
                 userChoice = getInput();
-                if (userChoice.length() > 1) {
-                    st.message = "Insufficient amount given. Please enter a numeric amount greater than the price.";
-                } else {
-                    BigDecimal amount = new BigDecimal(userChoice);
-                    BigDecimal change = calculateChange(amount, price);
-                    int res = amount.compareTo(price);
-                    if (res > 0) {
-                        st.message = getMessageFour(change);
-                        menu.setState(State.exit);
-                    } else {
-                        st.message = "Insufficient amount given. Please enter a numeric amount greater than the price.";
-                    }
-                }
+//                if (userChoice.length() > 1) {
+//                    st.message = "Insufficient amount given. Please enter a numeric amount greater than the price.";
 
+                BigDecimal amount = new BigDecimal(userChoice);
+                BigDecimal change = calculateChange(amount, price);
+                if (amount.compareTo(price) > 0) {
+                    st.message = getMessageFour(change);
+                    menu.setState(State.exit);
+                } else {
+                    st.message = "Insufficient amount given. Please enter a numeric amount greater than the price.";
+                }
                 break;
 
             case State.exit:
-                System.out.println(menu.getState());
                 break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + menu.getState());
         }
+
         return st.getMessage();
     }
 
 
     public void runStore(List<Product> list) {
         do {
+
             print(customerStore(list));
         } while (!hasFinished());
     }
