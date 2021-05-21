@@ -5,9 +5,11 @@ public class Store {
     public String message;
 
 
-    public String getMessage() {
-        return this.message;
+    public void getMessage() {
+        System.out.println(this.message);
     }
+
+
 
     public void getCurrentState() {
         System.out.println(t.getState());

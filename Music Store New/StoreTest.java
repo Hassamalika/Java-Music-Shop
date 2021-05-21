@@ -2,14 +2,12 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StoreTest {
 
     public static List<Product> list = new ArrayList<>();
-    static State test = new State();
 
 //    @Test
 //    public void testDisplayPrice() {
@@ -49,13 +47,27 @@ public class StoreTest {
 
     @Test
     public void testRunChange() {
-        String test = "2.50";
-        BigDecimal testPrice = new BigDecimal(3.50);
-        BigDecimal testAmount = newStore.getAmount(test);
-        BigDecimal testChange = newStore.calculateChange(testAmount, testPrice);
+        list = Product.loadProductsJson();
+        String test = "five";
+        BigDecimal testPrice = new BigDecimal("13.50");
+        BigDecimal testAmount =new BigDecimal(test);
 
         // Assert.assertEquals(new BigDecimal(5.50).setScale(2, RoundingMode.HALF_EVEN), testAmount);
-        Assert.assertEquals(new BigDecimal(2.00).setScale(2, RoundingMode.HALF_EVEN), testChange);
+        // Assert.assertTrue(newStore.calculateChange(testAmount, testPrice).contains("Invalid amount. Amount must be greater than price."));
+
+        //Assert.assertTrue(newStore.calculateChange(testAmount, testPrice).contains("\nThank you. Your change is £6.50."));
+
+        Assert.assertTrue(newStore.returnUserChange(test, 0, list).contains("Please enter a numeric amount greater than the price."));
     }
+
+//    @Test
+//    public void testRunStore(){
+//
+//        newStore s = new newStore();
+////        s.getMessage();
+////        s.getCurrentState();
+////        s.setInitialState();
+//
+//    }
 
 }

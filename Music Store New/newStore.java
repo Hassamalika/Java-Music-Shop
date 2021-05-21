@@ -10,17 +10,9 @@ public class newStore {
     static Store st = new Store();
     static State menu = new State();
 
-    public String getMessageOne() {
-        return "\nPlease input which CD you would like:";
-    }
 
-    public String getMessageTwo(BigDecimal price) {
+    public static String getMessageTwo(BigDecimal price) {
         return "\nThat will be £ " + price + ". \n \nPlease input how much you would like to give me:";
-    }
-
-
-    public String getMessageFour(BigDecimal change) {
-        return "\nThank you. Your change is £" + change + ".";
     }
 
     public static void printHeader() {
@@ -28,6 +20,7 @@ public class newStore {
         System.out.println("|          Welcome to my shop!           |");
         System.out.println("+----------------------------------------+");
         System.out.println("\n\nWe have the following CD's in stock.\n");
+        System.out.println("\nPlease input which CD you would like:");
     }
 
     public static void printMenu(List<Product> list) {
@@ -55,10 +48,6 @@ public class newStore {
         return list.get(choice).getPrice();
     }
 
-    public static BigDecimal calculateChange(BigDecimal amount, BigDecimal price) {
-        return amount.subtract(price);
-    }
-
 
     public static boolean hasFinished() {
         if (menu.getState().equals(State.exit)) {
@@ -73,66 +62,79 @@ public class newStore {
         System.out.println(message);
     }
 
+    public static int returnUserSelection(String userInput, List<Product> list) {
+        int choice = returnChoiceAsInteger(userInput);
+        BigDecimal price = displayPrice(choice, list);
+        if (userInput.length() > 1) {
+            st.message = "Please enter a number between 0 and 3.";
+        } else if (choice >= 4) {
+            st.message = "Please enter a number between 0 and 3.";
+        } else {
+            st.message = getMessageTwo(price);
+        }
+        st.getMessage();
+        return choice;
+    }
+
+    public static String calculateChange(BigDecimal amount, BigDecimal price) {
+        BigDecimal change = null;
+        st.message ="";
+        if (amount.compareTo(price) > 0) {
+            change = amount.subtract(price);
+            st.message = "\nThank you. Your change is £" + change + ".";
+        } else {
+            st.message = "Invalid amount. Amount must be greater than price.";
+        }
+        return st.message;
+    }
+
+    public static String returnUserChange(String userInput, int choice, List<Product> list) {
+        BigDecimal amount = new BigDecimal(userInput);
+        if (amount.stripTrailingZeros().scale() <= 0) {
+            BigDecimal price = displayPrice(choice, list);
+            st.message = calculateChange(amount, price);
+        } else {
+            st.message = "Please enter a numeric amount greater than the price.";
+        }
+        return st.message;
+    }
+
+
     public String customerStore(List<Product> list) {
         String userChoice = "";
-        BigDecimal price = BigDecimal.ZERO;
-        Store t = new Store();
-        t.getCurrentState();
-        st.message = null;
+        int choice = 0;
         switch (menu.getState()) {
             case State.ready:
                 menu.setState(State.ready);
                 printHeader();
                 printMenu(list);
-                st.message = getMessageOne();
                 menu.setState(State.pendingChoice);
                 break;
 
             case State.pendingChoice:
-                //take input
-                //Either move to next state if correct
-                // Or raise error and validate, loop again
                 userChoice = getInput();
-                int choice = returnChoiceAsInteger(userChoice);
-                if (userChoice.length() > 1) {
-                    st.message = "Please enter a number between 0 and 3.";
-                } else if (choice >= 4) {
-                    st.message = "Please enter a number between 0 and 3.";
-                } else {
-                    price = displayPrice(choice, list);
-                    st.message = getMessageTwo(price);
-                    menu.setState(State.pendingAmount);
-                }
+                choice = returnUserSelection(userChoice, list);
+                menu.setState(State.pendingAmount);
                 break;
+
 
             case State.pendingAmount:
                 userChoice = getInput();
-//                if (userChoice.length() > 1) {
-//                    st.message = "Insufficient amount given. Please enter a numeric amount greater than the price.";
 
-                BigDecimal amount = new BigDecimal(userChoice);
-                BigDecimal change = calculateChange(amount, price);
-                if (amount.compareTo(price) > 0) {
-                    st.message = getMessageFour(change);
-                    menu.setState(State.exit);
-                } else {
-                    st.message = "Insufficient amount given. Please enter a numeric amount greater than the price.";
-                }
+                st.message = returnUserChange(userChoice, choice, list);
+                st.getMessage();
                 break;
 
             case State.exit:
                 break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + menu.getState());
-        }
 
-        return st.getMessage();
+        }
+        return menu.getState();
     }
 
 
     public void runStore(List<Product> list) {
         do {
-
             print(customerStore(list));
         } while (!hasFinished());
     }
@@ -147,4 +149,3 @@ public class newStore {
         p.runStore(list);
     }
 }
-
