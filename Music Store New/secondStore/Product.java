@@ -1,3 +1,5 @@
+package secondStore;
+
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -66,6 +68,8 @@ public class Product {
     }
 
     public BigDecimal getPrice() {
+
+
         price = price.setScale(2, RoundingMode.HALF_EVEN);
         return price;
     }

@@ -1,10 +1,12 @@
+package secondStore;
+
 public class State {
     //alter to states to be more specific for each state in each class?
     public static final String ready = "----------Ready. Message shown------------\n";
-    public static final String pendingChoice = "------------User's choice given------------\n";
+    public static final String pendingChoice = "------------Waiting for user choice------------\n";
     public static final String pendingAmount = "------------Waiting for user amount------------\n";
     public static final String selected = "-------------Selected. Input given------------\n";
-    public static final String error = "-------------Error--------------\n \n Please input a numeric choice between 0 and 3.";
+    public static final String error = "-------------Error--------------\n";
     public static final String exit = "------------Finished-----------\n";
 
     public static final String errorMessage = "Please enter a number between 0 and 3";
