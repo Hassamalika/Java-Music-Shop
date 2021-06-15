@@ -5,12 +5,14 @@ public class Store {
     public String message;
 
 
-    public void getMessage() {
-        System.out.println(this.message);
+    public String getMessage() {
+        return this.message;
     }
 
-
-
+    public String setMessage(String message) {
+        this.message = message;
+        return message;
+    }
     public void getCurrentState() {
         System.out.println(t.getState());
     }

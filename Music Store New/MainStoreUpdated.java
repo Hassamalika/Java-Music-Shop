@@ -26,7 +26,7 @@ public class MainStoreUpdated {
         list = Product.loadProductsJson();
 
         if (Objects.equals(input, "1")) {
-            newStore.runStore(list);
+//            newStoreUpdate.main(list);
         } else if (Objects.equals(input, "2")) {
             newStaff.runStaff(list);
         } else {
@@ -48,17 +48,17 @@ public class MainStoreUpdated {
 
     public static void main(String[] args) {
         do {
-            switch (main.getState()) {
+            switch (main.getCurrentMessage()) {
                 case State.ready: {
                     main.setState(State.ready);
                     System.out.println(main.getState());
                     System.out.println(getCurrentMessage());
                     System.out.println(getMessageForCustomer());
                     System.out.println(getMessageForStaff());
-                    main.setState(State.pending);
+                    main.setState(State.pendingChoice);
                     break;
                 }
-                case State.pending: {
+                case State.pendingChoice: {
                     System.out.println(main.getState());
                     main.setState(State.selected);
                     break;

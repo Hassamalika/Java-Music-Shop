@@ -1,7 +1,7 @@
 package secondStore;
 
-
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 public class store {
@@ -41,20 +41,18 @@ public class store {
         return price;
     }
 
-//    public static String returnUserChange(String input, BigDecimal price) {
-//        if (!(input.length() > 1)){
-//            BigDecimal amount = new BigDecimal(input).setScale(2, RoundingMode.HALF_EVEN);
-//            if (amount.compareTo(price) > 0) {
-//                BigDecimal change = amount.subtract(price);
-//                message = "\nThank you. Your change is £" + change + ".";
-//                state.setState(State.exit);
-//            } else {
-//                message = "Invalid amount. Amount must be greater than price.";
-//                state.setState(State.error);
-//            }
-//        }
-//        return message;
-//    }
+    public static String returnUserChange(BigDecimal amount, BigDecimal price) {
+        if (amount.compareTo(price) > 0) {
+            BigDecimal change = amount.subtract(price);
+            message = "\nThank you. Your change is £" + change + ".";
+            state.setState(State.exit);
+        } else {
+            message = "Invalid amount. Amount must be greater than price.";
+            state.setState(State.error);
+        }
+
+        return message;
+    }
 
     public static boolean hasFinished() {
         if (state.getState().equals(State.exit)) {
@@ -99,29 +97,17 @@ public class store {
     public static String userInputTwo(String input, List<Product> list) {
         state.setState(State.pendingChoice);
         message = state.getState();
-        if (input.length() > 1) {
-            state.setState(State.error);
-            message = state.getState();
-        } else {
-            int choice = returnChoiceInteger(input);
-            if (choice <= 3) {
-                BigDecimal price = displayPrice(choice, list);
-                message = returnUserSelection(price);
-                state.setState(State.pendingAmount);
-            } else {
-                state.setState(State.error);
-                message = state.getState();
-            }
+        int choice = returnChoiceInteger(input);
+        BigDecimal amount = new BigDecimal(input).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal price = displayPrice(choice, list);
+        if (amount.compareTo(price) < 0) {
+            message = returnUserSelection(price);
+            state.setState(State.pendingAmount);
+        } else if (amount.compareTo(price) > 0){
+            message = returnUserChange(amount, price);
+            state.setState(State.exit);
         }
         return message;
     }
-
-//    public static boolean noSelection() {
-//        if (state.getState().equals(State.pendingChoice)) {
-//            state.getState();
-//            return true;
-//        }
-//        return false;
-//    }
 
 }

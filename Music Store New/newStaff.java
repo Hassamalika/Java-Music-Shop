@@ -134,9 +134,9 @@ public class newStaff {
                 System.out.println(main.getState());
                 System.out.println(getMessageAddProduct());
                 System.out.println(getMessageAddProductSong());
-                main.setState(State.pending);
+                main.setState(State.pendingChoice);
             }
-            case State.pending -> {
+            case State.pendingChoice -> {
                 System.out.println(main.getState());
                 song = getStaffInput();
                 main.setState(State.selected);
@@ -162,9 +162,9 @@ public class newStaff {
                 main.setState(State.ready);
                 System.out.println(main.getState());
                 System.out.println(getMessageAddProductArtist());
-                main.setState(State.pending);
+                main.setState(State.pendingChoice);
             }
-            case State.pending -> {
+            case State.pendingChoice -> {
                 System.out.println(main.getState());
                 artists = getStaffInput();
                 main.setState(State.selected);
@@ -190,9 +190,9 @@ public class newStaff {
                 main.setState(State.ready);
                 System.out.println(main.getState());
                 System.out.println(getMessageAddProductPrice());
-                main.setState(State.pending);
+                main.setState(State.pendingChoice);
             }
-            case State.pending -> {
+            case State.pendingChoice -> {
                 System.out.println(main.getState());
                 String input = getStaffInput();
                 price = new BigDecimal(input);
@@ -219,9 +219,9 @@ public class newStaff {
                 main.setState(State.ready);
                 System.out.println(main.getState());
                 System.out.println(getMessageAddProductStock());
-                main.setState(State.pending);
+                main.setState(State.pendingChoice);
             }
-            case State.pending -> {
+            case State.pendingChoice -> {
                 System.out.println(main.getState());
                 String input = getStaffInput();
                 stock = returnStringToInteger(input);
@@ -283,9 +283,9 @@ public class newStaff {
                 main.setState(State.ready);
                 System.out.println(main.getState());
                 System.out.println(getMessageRemoveProduct());
-                main.setState(State.pending);
+                main.setState(State.pendingChoice);
             }
-            case State.pending -> {
+            case State.pendingChoice -> {
                 System.out.println(main.getState());
                 final String input = getStaffInput();
                 int intItem = returnStringToInteger(input);
@@ -325,9 +325,9 @@ public class newStaff {
                 System.out.println(main.getState());
                 System.out.println(getMessageChangeStockOne());
                 System.out.println(getMessageChangeStockTwo());
-                main.setState(State.pending);
+                main.setState(State.pendingChoice);
             }
-            case State.pending -> {
+            case State.pendingChoice -> {
                 System.out.println(main.getState());
                 final String input = getStaffInput();
                 int intItem = returnStringToInteger(input);
@@ -391,9 +391,9 @@ public class newStaff {
                 main.setState(State.ready);
                 System.out.println(main.getState());
                 System.out.println(getMessageApplyDiscountOne());
-                main.setState(State.pending);
+                main.setState(State.pendingChoice);
             }
-            case State.pending -> {
+            case State.pendingChoice -> {
                 System.out.println(main.getState());
                 String input = newStore.getInput();
                 float number = returnStringToFloat(input);
@@ -450,9 +450,9 @@ public class newStaff {
                 main.setState(State.ready);
                 System.out.println(main.getState());
                 System.out.println(getMessageBackToMenu());
-                main.setState(State.pending);
+                main.setState(State.pendingChoice);
             }
-            case State.pending -> {
+            case State.pendingChoice -> {
                 System.out.println(main.getState());
                 final String input = getStaffInput();
                 returnUserToMenuOrExit(input, list);
@@ -524,9 +524,9 @@ public class newStaff {
                 System.out.println(getMessageTwo());
                 newStore.printMenu(list);
                 getStaffMainMenu();
-                main.setState(State.pending);
+                main.setState(State.pendingChoice);
             }
-            case State.pending -> {
+            case State.pendingChoice -> {
                 System.out.println(main.getState());
                 final String input = getStaffInput();
                 int option = returnStringToInteger(input);
