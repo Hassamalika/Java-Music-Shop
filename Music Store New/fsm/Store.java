@@ -11,23 +11,9 @@ public class Store {
     }
 
     private State state = State.SELECT_PRODUCT;
-
     private int choice;
     private double amount;
 
-    public String error = "Please enter a numeric choice from list";
-
-    // error
-//    public boolean ifError() {
-//        return getMessage().equals(error);
-//    }
-
-    public boolean isNumeric(String str) {
-        for (char c : str.toCharArray()) {
-            if (!Character.isDigit(c)) return false;
-        }
-        return true;
-    }
 
     public String getMessage() {
         switch (state) {
@@ -39,33 +25,45 @@ public class Store {
                 double change = amount - CD_PRICES[choice - 1];
                 return "Thank you, your change is £" + change;
         }
-        return error;
+        return null;
     }
 
     public String userInput(String input) {
         // error checking if input is int
-        boolean isValid = isNumeric(input);
         switch (state) {
             case SELECT_PRODUCT:
-                if (isValid) {
-                    choice = Integer.parseInt(input);
-                    state = State.PAY;
-                    return null;
-                } else {
+                try {
+                    final int choice = Integer.parseInt(input);
+                    if (choice <= CD_PRICES.length && choice >= 1) {
+                        this.choice = choice;
+                        state = State.PAY;
+                    } else {
+                        return "Please enter between 1 and " + CD_PRICES.length;
+                    }
+
                     break;
+                } catch (NumberFormatException e) {
+                    return "Please enter a numeric choice from list";
                 }
             case PAY:
-                if (isValid) {
-                    amount = Double.parseDouble(input);
-                    state = State.FINISH;
-                    return getMessage();
-                } else {
-                    break;
+                try {
+                    final double amount = Double.parseDouble(input);
+                    if (amount > CD_PRICES[choice - 1]) {
+                        this.amount = amount;
+                        state = State.FINISH;
+                        break;
+                    }
+                    else {
+                        return "Please enter an amount greater than the price";
+                    }
+
+                } catch (NumberFormatException e){
+                    return "Please enter a numeric amount";
                 }
             case FINISH:
-                return getMessage();
+                return null;
         }
-        return error;
+        return null;
     }
 
     public boolean hasFinished() {
